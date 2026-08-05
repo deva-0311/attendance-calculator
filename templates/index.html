@@ -74,174 +74,35 @@
 
             </thead>
 
-            <tbody>
-{% for row in rows %}
+            <tbody id="attendanceBody">
 
-<tr>
-
-    <td>{{ loop.index }}</td>
-
-    <td>{{ row.coursecode }}</td>
-
-    <td class="course-name">
-        {{ row.coursedesc }}
-    </td>
-
-    <td>{{ row.ltps }}</td>
-
-    <td>{{ row.year }}</td>
-
-    <td>{{ row.semester }}</td>
-
-    <td class="center">
-        {{ row.conducted }}
-    </td>
-
-    <td class="center">
-        {{ row.attended }}
-    </td>
-
-    <td class="center absent">
-        {{ row.absent }}
-    </td>
-
-    <td class="center">
-        {{ row.tcbr }}
-    </td>
-
-    <td class="center">
-
-        {% if row.status == "critical" %}
-
-            <span title="Critical Attendance">
-
-                ⛔
-
-            </span>
-
-        {% elif row.status == "medical" %}
-
-            <span title="Medical Certificate Required">
-
-                🏥
-
-            </span>
-
-        {% elif row.status == "fine" %}
-
-            <span title="₹500 Fine">
-
-                💰
-
-            </span>
-
-        {% else %}
-
-            <span title="Safe">
-
-                ✅
-
-            </span>
-
-        {% endif %}
-
-    </td>
-
-    <td class="center">
-
-        {% if row.percentage < 65 %}
-
-            <span class="attendance black">
-
-                {{ row.percentage }}%
-
-            </span>
-
-        {% elif row.percentage < 75 %}
-
-            <span class="attendance red">
-
-                {{ row.percentage }}%
-
-            </span>
-
-        {% elif row.percentage < 85 %}
-
-            <span class="attendance blue">
-
-                {{ row.percentage }}%
-
-            </span>
-
-        {% else %}
-
-            <span class="attendance green">
-
-                {{ row.percentage }}%
-
-            </span>
-
-        {% endif %}
-
-    </td>
-
-    <td class="center">
-
-        {% if row.need_to_attend == 0 %}
-
-            <span class="safe-badge">✅</span>
-
-        {% else %}
-
-            <span class="need-badge">
-                📚 {{ row.need_to_attend }}
-            </span>
-
-        {% endif %}
-
-    </td>
-
-    <td class="center">
-
-        {% if row.can_skip == 0 %}
-
-            <span class="no-skip">❌</span>
-
-        {% else %}
-
-            <span class="skip-badge">
-                😴 {{ row.can_skip }}
-            </span>
-
-        {% endif %}
-
-    </td>
-
-    <td class="center">
-
-        <a href="{{ url_for('update', id=row.id) }}"
-           class="edit-btn">
-
-            Edit
-
-        </a>
-
-        <a href="{{ url_for('delete', id=row.id) }}"
-           class="delete-btn"
-           onclick="return confirm('Delete this subject?');">
-
-            Delete
-
-        </a>
-
-    </td>
-
-</tr>
-
-{% endfor %}
             </tbody>
 
         </table>
+
+    </div>
+
+    <div class="bottom-bar">
+
+        <div class="left-side">
+
+            <strong>Total Subjects :</strong>
+
+            <span id="totalSubjects">0</span>
+
+        </div>
+
+        <div class="right-side">
+
+            <button
+                class="add-btn"
+                id="addSubjectBtn">
+
+                + Add Subject
+
+            </button>
+
+        </div>
 
     </div>
 
@@ -269,24 +130,75 @@
 
     </div>
 
-    <div class="bottom-bar">
+    <!-- ========================================= -->
+    <!-- Add Subject Popup -->
+    <!-- ========================================= -->
 
-        <div class="left-side">
+    <div id="popupOverlay" class="popup-overlay">
 
-            <strong>Total Subjects :</strong>
+        <div class="popup-box">
 
-            {{ rows|length }}
+            <h2 id="popupTitle">Add Subject</h2>
 
-        </div>
+            <div class="popup-form">
 
-        <div class="right-side">
+                <input
+                    type="text"
+                    id="courseCode"
+                    placeholder="Course Code">
 
-            <a href="{{ url_for('add') }}"
-               class="add-btn">
+                <input
+                    type="text"
+                    id="courseName"
+                    placeholder="Course Description">
 
-                + Add Subject
+                <input
+                    type="text"
+                    id="ltps"
+                    placeholder="LTPS">
 
-            </a>
+                <input
+                    type="text"
+                    id="year"
+                    placeholder="Year">
+
+                <input
+                    type="text"
+                    id="semester"
+                    placeholder="Semester">
+
+                <input
+                    type="number"
+                    id="conducted"
+                    placeholder="Total Conducted">
+
+                <input
+                    type="number"
+                    id="attended"
+                    placeholder="Total Attended">
+
+                <input
+                    type="number"
+                    id="tcbr"
+                    placeholder="TCBR">
+
+            </div>
+
+            <div class="popup-buttons">
+
+                <button id="cancelBtn">
+
+                    Cancel
+
+                </button>
+
+                <button id="saveBtn">
+
+                    Save Subject
+
+                </button>
+
+            </div>
 
         </div>
 
