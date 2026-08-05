@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Add Subject</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<div class="form-container">
+
+    <h1>Add New Subject</h1>
+
+    <form action="/add" method="POST">
+
+        <div class="form-group">
+
+            <label>Course Code</label>
+
+            <input
+                type="text"
+                name="coursecode"
+                required>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Course Description</label>
+
+            <input
+                type="text"
+                name="coursedesc"
+                required>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>LTPS</label>
+
+            <input
+                type="text"
+                name="ltps"
+                placeholder="3-0-2-4"
+                required>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Year</label>
+
+            <input
+                type="text"
+                name="year"
+                required>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Semester</label>
+
+            <input
+                type="text"
+                name="semester"
+                required>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Total Conducted</label>
+
+            <input
+                type="number"
+                name="conducted"
+                min="0"
+                required>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Total Attended</label>
+
+            <input
+                type="number"
+                name="attended"
+                min="0"
+                required>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>TCBR</label>
+
+            <input
+                type="number"
+                name="tcbr"
+                value="0">
+
+        </div>
+
+        <div class="button-group">
+
+            <button
+                type="submit"
+                class="save-btn">
+
+                Save Subject
+
+            </button>
+
+            <a
+                href="/"
+                class="cancel-btn">
+
+                Cancel
+
+            </a>
+
+        </div>
+
+    </form>
+
+</div>
+
+</body>
+
+</html>

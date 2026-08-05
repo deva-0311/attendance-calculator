@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Attendance Register</title>
+
+    <link rel="icon" href="{{ url_for('static', filename='favicon.png') }}">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<div class="wrapper">
+
+    <div class="top-bar">
+
+        <div class="title">
+
+            Attendance Register
+
+        </div>
+
+    </div>
+
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+
+            <tr>
+
+                <th>#</th>
+
+                <th>Course Code</th>
+
+                <th>Course Description</th>
+
+                <th>LTPS</th>
+
+                <th>Year</th>
+
+                <th>Semester</th>
+
+                <th>Total Conducted</th>
+
+                <th>Total Attended</th>
+
+                <th>Total Absent</th>
+
+                <th>Tcbr</th>
+
+                <th>Status</th>
+
+                <th>Attendance %</th>
+
+                <th>Attend Needed</th>
+
+                <th>Can Skip</th>
+
+                <th>Action</th>
+
+            </tr>
+
+            </thead>
+
+            <tbody>
+{% for row in rows %}
+
+<tr>
+
+    <td>{{ loop.index }}</td>
+
+    <td>{{ row.coursecode }}</td>
+
+    <td class="course-name">
+        {{ row.coursedesc }}
+    </td>
+
+    <td>{{ row.ltps }}</td>
+
+    <td>{{ row.year }}</td>
+
+    <td>{{ row.semester }}</td>
+
+    <td class="center">
+        {{ row.conducted }}
+    </td>
+
+    <td class="center">
+        {{ row.attended }}
+    </td>
+
+    <td class="center absent">
+        {{ row.absent }}
+    </td>
+
+    <td class="center">
+        {{ row.tcbr }}
+    </td>
+
+    <td class="center">
+
+        {% if row.status == "critical" %}
+
+            <span title="Critical Attendance">
+
+                ⛔
+
+            </span>
+
+        {% elif row.status == "medical" %}
+
+            <span title="Medical Certificate Required">
+
+                🏥
+
+            </span>
+
+        {% elif row.status == "fine" %}
+
+            <span title="₹500 Fine">
+
+                💰
+
+            </span>
+
+        {% else %}
+
+            <span title="Safe">
+
+                ✅
+
+            </span>
+
+        {% endif %}
+
+    </td>
+
+    <td class="center">
+
+        {% if row.percentage < 65 %}
+
+            <span class="attendance black">
+
+                {{ row.percentage }}%
+
+            </span>
+
+        {% elif row.percentage < 75 %}
+
+            <span class="attendance red">
+
+                {{ row.percentage }}%
+
+            </span>
+
+        {% elif row.percentage < 85 %}
+
+            <span class="attendance blue">
+
+                {{ row.percentage }}%
+
+            </span>
+
+        {% else %}
+
+            <span class="attendance green">
+
+                {{ row.percentage }}%
+
+            </span>
+
+        {% endif %}
+
+    </td>
+
+    <td class="center">
+
+        {% if row.need_to_attend == 0 %}
+
+            <span class="safe-badge">✅</span>
+
+        {% else %}
+
+            <span class="need-badge">
+                📚 {{ row.need_to_attend }}
+            </span>
+
+        {% endif %}
+
+    </td>
+
+    <td class="center">
+
+        {% if row.can_skip == 0 %}
+
+            <span class="no-skip">❌</span>
+
+        {% else %}
+
+            <span class="skip-badge">
+                😴 {{ row.can_skip }}
+            </span>
+
+        {% endif %}
+
+    </td>
+
+    <td class="center">
+
+        <a href="{{ url_for('update', id=row.id) }}"
+           class="edit-btn">
+
+            Edit
+
+        </a>
+
+        <a href="{{ url_for('delete', id=row.id) }}"
+           class="delete-btn"
+           onclick="return confirm('Delete this subject?');">
+
+            Delete
+
+        </a>
+
+    </td>
+
+</tr>
+
+{% endfor %}
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <div class="note-box">
+
+        <h3>ℹ️ Attendance Guide</h3>
+
+        <ul>
+
+            <li>⛔ <strong>Below 65%</strong> — Critical Attendance</li>
+
+            <li>🏥 <strong>65%–75%</strong> — Medical Certificate Required</li>
+
+            <li>💰 <strong>75%–85%</strong> — ₹500 Fine</li>
+
+            <li>✅ <strong>85% and Above</strong> — Safe Attendance</li>
+
+            <li>📚 <strong>Attend Needed</strong> — Number of consecutive classes you must attend to reach <strong>85%</strong>.</li>
+
+            <li>😴 <strong>Can Skip</strong> — Number of classes you can miss while still maintaining <strong>85%</strong>.</li>
+
+            <li>❌ <strong>Can Skip = 0</strong> — Do not miss the next class.</li>
+
+        </ul>
+
+    </div>
+
+    <div class="bottom-bar">
+
+        <div class="left-side">
+
+            <strong>Total Subjects :</strong>
+
+            {{ rows|length }}
+
+        </div>
+
+        <div class="right-side">
+
+            <a href="{{ url_for('add') }}"
+               class="add-btn">
+
+                + Add Subject
+
+            </a>
+
+        </div>
+
+    </div>
+
+    <div class="footer">
+
+        <p>
+
+            Attendance Management System
+
+        </p>
+
+    </div>
+
+</div>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+
+</html>
